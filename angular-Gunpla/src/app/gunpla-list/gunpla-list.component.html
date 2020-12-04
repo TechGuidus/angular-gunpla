@@ -1,0 +1,29 @@
+<table class="table text-center">
+    <thead>
+        <tr>
+            <th>Imagen</th>
+            <th>Nombre</th>
+            <th>Categoria</th>
+            <th>Precio</th>
+            <th>Stock</th>
+            <th>Compra</th>
+            <th>Agregar</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let gunpla of gunplas" [ngClass]="{'oferta': gunpla.oferta}">
+            <td><img [src]="gunpla.image" class="img-thumbnail" [alt]="gunpla.nombre" ></td>
+            <td>{{gunpla.nombre}}</td>
+            <td>{{gunpla.categoria}}</td>
+            <td>{{gunpla.precio | currency}}</td>
+            <td *ngIf="gunpla.stock == 0; else sinStock"><span class="badge badge-warning">SIN STOCK</span></td>
+            <ng-template #sinStock>{{gunpla.stock}}</ng-template>
+            <td>
+                <app-input-integer [(quantity)]="gunpla.quantity" [max]="gunpla.stock" (maxReached)="maxReached($event)"></app-input-integer>
+            </td>
+            <td>
+                <button class="btn" (click)="addToCart(gunpla)">Comprar</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
